@@ -1,19 +1,27 @@
 # Integration tool in Python
 
-## PROBLEM
+## Problem
 
 - https://docs.google.com/presentation/d/1f7QtEHRsvAFrT39W8HVVpxK8mShgZ1pzzWO_2UlktT8/edit?usp=sharing
 
-## DAT
+## D.A.T.
 
-### Serializer
+### Data
 
-- Serialize list<Item> to json
+#### Serializer
+
+- Serialize Data to json
+
+#### Data
+
+- list (Character) characters
+- list (Item) item
+- list (Equipment) equipments
 
 ### Window
 
 - Using tkinter
-- Side bar to navigate amoung lists
+- Sidebar to navigate among lists
 - Add and remove item from lists
 - Change values
 - Serialize and save json OnQuit() or OnPress()
@@ -22,40 +30,50 @@
 
 #### Item
 
-- string Name
-- string Description
+- str Name
+- str Description
 - image Main Image
 - int ID
 
+#### Consumable
+
+- int Power
+- enum Effect
+
 #### Character
 
-- Inherent from Item
+- str Name
+- str Background
+- image Main Image
+- int ID
 - enum Race
 - enum Affinity
 - bool do_randomize_stats
-- list<class> Statistics
-    - sting Type
+- tuple (str, int) Statistics
+    - str Type
     - int Value
+
+#### Equipment
+
+- str Name
+- str Description
+- image Main Image
+- int ID
 
 #### Weapon
 
-- Inherent from Item
+- Inherent from Equipment
 - int Power
 - enum Effect
 - enum Type
 
 #### Shield
 
-- Inherent from Item
+- Inherent from Equipment
 - int Defence
 
 #### Armor
 
-- Inherent from Item
+- Inherent from Equipment
 - int Defence
 - enum Type
-
-#### Consumable
-
-- int Power
-- enum Effect
