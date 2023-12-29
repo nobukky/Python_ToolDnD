@@ -9,7 +9,7 @@ class Random:
 
     @staticmethod
     def roll_dice(amount, value):
-        sum = 0
+        output = 0
         for i in range(amount):
-            sum += randint(1, value)
-        return sum
+            output += randint(1, value)
+        return output

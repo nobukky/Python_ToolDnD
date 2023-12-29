@@ -1,5 +1,5 @@
 from enum import Enum
-from misc.random import Random
+from misc.dice import Random
 
 
 class Race(Enum):
@@ -17,10 +17,10 @@ class Affinity(Enum):
 
 class Character:
 
-    def __init__(self, name: str, background: str, image, id: int,
+    def __init__(self, name: str, description: str, image, id: int,
                  race: Race, affinity: Affinity, do_randomize_stats: bool):
         self.name = name
-        self.background = background
+        self.description = description
         self.image = image
         self.id = id
         self.race = race

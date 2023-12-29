@@ -17,6 +17,7 @@ class Serializer:
 
         # load data lists from json
 
+        # debug data
         bob = Character("Bob", "Child of the moon", "image", 0, Race.HUMAN, Affinity.MAGE, True)
         oli = Character("Oli", "Destructor of worlds", "image", 1, Race.ORC, Affinity.WARRIOR, True)
         characters = [bob, oli]
