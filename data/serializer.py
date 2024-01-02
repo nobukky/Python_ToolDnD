@@ -44,22 +44,22 @@ class Serializer:
         characters_json = ""
         for character in data.characters:
             character_schema = CharacterSchema()
-            character_serialized = character_schema.dump(character)
-            characters_json += json.dumps(character_serialized, indent=4)
+            character_serialized = character_schema.dumps(character)
+            characters_json += json.dumps(character_serialized, sort_keys=True, indent=4)
         write_file(characters_json, cache_directory + "\\characters.json")
 
         # serialize and store items data
         items_json = ""
         for item in data.items:
             item_schema = ItemSchema()
-            item_serialized = item_schema.dump(item)
-            items_json += json.dumps(item_serialized, indent=4)
+            item_serialized = item_schema.dumps(item)
+            items_json += json.dumps(item_serialized, sort_keys=True, indent=4)
         write_file(items_json, cache_directory + "\\items.json")
 
         # serialize and store equipments data
         equipments_json = ""
         for equipment in data.equipments:
             equipment_schema = ItemSchema()
-            equipment_serialized = equipment_schema.dump(equipment)
-            equipments_json += json.dumps(equipment_serialized, indent=4)
+            equipment_serialized = equipment_schema.dumps(equipment)
+            equipments_json += json.dumps(equipment_serialized, sort_keys=True, indent=4)
         write_file(equipments_json, cache_directory + "\\equipments.json")

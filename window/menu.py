@@ -16,7 +16,7 @@ class Menu:
 
         # title
         frame_main = Editor.frame(window, True, Fill.BOTH, Side.RIGHT)
-        Editor.label(frame_main, "Dungeons and dragons asset creator")
+        Editor.label(frame_main, "Dungeons and dragons\nasset creator")
         Editor.button(frame_main, "Characters", command=lambda: self.character.open_window(data_handler))
         Editor.button(frame_main, "Items", command=lambda: self.item.open_window(data_handler))
         Editor.button(frame_main, "Equipments", command=lambda: self.equipment.open_window(data_handler))

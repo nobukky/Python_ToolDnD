@@ -62,7 +62,7 @@ class Character:
 
         # save button & id
         Editor.button(frame_main, "SAVE", command=lambda: self.save_information())
-        self.id = Editor.label(frame_main, "ID: " + self.id.__str__())
+        Editor.label(frame_main, "ID: " + self.id.__str__())
 
         window.mainloop()
 

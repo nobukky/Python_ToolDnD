@@ -64,4 +64,4 @@ class CharacterSchema(Schema):
     id = fields.Int()
     race: EnumField(Race)
     affinity: EnumField(Affinity)
-    statistics = fields.List(fields.Nested(StatSchema), required=True)
+    statistics = fields.List(fields.Nested(StatSchema))

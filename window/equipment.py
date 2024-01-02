@@ -18,6 +18,10 @@ class Equipment:
         self.defense = None
 
         self.window = None
+        self.frame_main = None
+        self.label_effect = None
+        self.label_range = None
+        self.label_resistance = None
         self.data_handler = None
         self.entry_name = None
         self.entry_description = None
@@ -36,8 +40,8 @@ class Equipment:
 
         # title
         frame_main = Editor.frame(self.window, True, Fill.BOTH, Side.RIGHT)
-        self.frame_main = frame_main
         Editor.label(frame_main, "Create new equipment")
+        self.frame_main = frame_main
 
         # name
         Editor.label(frame_main, "Name")
@@ -56,10 +60,40 @@ class Equipment:
         Editor.label(frame_main, "Type")
         self.type = Editor.dropbox(frame_main, EquipmentType, on_change_command=self.display_details)
 
+        ### WEAPON
+        # strength
+        self.strength = Dice.roll_dice(3, 4)
+
+        # effect
+        self.label_effect = Editor.label(self.frame_main, "Effect")
+        self.range = Editor.dropbox(self.frame_main, Effect)
+        self.label_effect.pack_forget()
+        self.range.pack_forget()
+
+        # range
+        self.label_range = Editor.label(self.frame_main, "Range")
+        self.effect = Editor.dropbox(self.frame_main, Range)
+        self.label_range.pack_forget()
+        self.effect.pack_forget()
+
+        ### SHIELD
+        # defense
+        self.defense = Dice.roll_dice(2, 4)
+
+        ### ARMOR
+        # defense
+        self.defense = Dice.roll_dice(2, 4)
+
+        # resistance
+        self.label_resistance = Editor.label(self.frame_main, "Resistance")
+        self.range = Editor.dropbox(self.frame_main, Effect)
+        self.label_resistance.pack_forget()
+        self.range.pack_forget()
+
 
         # save button & id
         Editor.button(frame_main, "SAVE", command=lambda: self.save_information())
-        self.id = Editor.label(frame_main, "ID: " + self.id.__str__())
+        Editor.label(frame_main, "ID: " + self.id.__str__())
 
         self.window.mainloop()
 
@@ -67,25 +101,18 @@ class Equipment:
         print(f"updating with {self.type.get()}...")
         match self.type.get():
             case EquipmentType.WEAPON:
-                # strength
-                self.strength = Dice.roll_dice(3, 4)
                 # effect
-                Editor.label(self.frame_main, "Effect")
-                self.range = Editor.dropbox(self.frame_main, Effect)
+                self.label_effect.pack()
+                self.range.pack()
                 # range
-                Editor.label(self.frame_main, "Range")
-                self.effect = Editor.dropbox(self.frame_main, Range)
-
-            case EquipmentType.SHIELD:
-                # defense
-                self.defense = Dice.roll_dice(2, 4)
+                self.label_range.pack()
+                self.effect.pack()
 
             case EquipmentType.ARMOR:
-                # defense
-                self.defense = Dice.roll_dice(2, 4)
                 # resistance
-                Editor.label(self.frame_main, "Resistance")
-                self.range = Editor.dropbox(self.frame_main, Effect)
+                self.label_resistance.pack()
+                self.range.pack()
+
 
     def save_information(self):
 
