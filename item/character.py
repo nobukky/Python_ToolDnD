@@ -20,13 +20,13 @@ class Affinity(Enum):
 def get_statistics(do_randomize_stats):
     statistics: list[Stat] = list()
     if do_randomize_stats:
-        statistics.append(Stat("Force", Dice.roll_dice(1, 20)))
+        statistics.append(Stat("Strength", Dice.roll_dice(1, 20)))
         statistics.append(Stat("Dexterity", Dice.roll_dice(1, 20)))
         statistics.append(Stat("Intelligence", Dice.roll_dice(1, 20)))
         statistics.append(Stat("Luck", Dice.roll_dice(1, 20)))
         statistics.append(Stat("Health Points", Dice.roll_dice(1, 20)))
     else:
-        statistics.append(Stat("Force", Dice.roll_dice(3, 6)))
+        statistics.append(Stat("Strength", Dice.roll_dice(3, 6)))
         statistics.append(Stat("Dexterity", Dice.roll_dice(3, 6)))
         statistics.append(Stat("Intelligence", Dice.roll_dice(3, 6)))
         statistics.append(Stat("Luck", Dice.roll_dice(3, 6)))
