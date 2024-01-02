@@ -1,8 +1,8 @@
 from window.nbk_editor import Fill, Side, Editor
 from item.character import Character as itemCharacter
 from item.character import Race, Affinity
-from data.data_handler import DataHandler
 from misc.dice import Dice
+import json
 
 
 class Character:
@@ -15,17 +15,21 @@ class Character:
         self.affinity = None
         self.do_randomize_stats = False
 
+        self.data_handler = None
         self.entry_name = None
         self.entry_description = None
 
-    def open_window(self, characters):
+    def open_window(self, data_handler):
+
+        self.data_handler = data_handler
 
         window = Editor.create_window("Dnd Character Creator", '800x420', False)
 
         # sidebar
         frame_sidebar = Editor.frame(window, True, Fill.BOTH, Side.LEFT)
         Editor.label(frame_sidebar, "List of characters")
-        Editor.generate_buttons(frame_sidebar, characters)
+        Editor.generate_buttons(frame_sidebar, data_handler.data.characters)
+
 
         # title
         frame_main = Editor.frame(window, True, Fill.BOTH, Side.RIGHT)
@@ -59,7 +63,7 @@ class Character:
 
         # save button
         frame_save = Editor.frame(frame_main, True, Fill.BOTH, Side.TOP)
-        Editor.button(frame_save, "SAVE", self.save_information)
+        Editor.button(frame_save, "SAVE", command=lambda: self.save_information())
 
         # id
         frame_background = Editor.frame(frame_main, True, Fill.BOTH, Side.TOP)
@@ -73,7 +77,5 @@ class Character:
         new_character = itemCharacter(self.name, self.description, self.image, self.id, self.race, self.affinity, self.do_randomize_stats)
 
         # save data information
-        print("Saving information...")
-        data_handler = DataHandler()
-        data_handler.data.characters.append(new_character)
-        data_handler.save()
+        self.data_handler.data.characters.append(new_character)
+        self.data_handler.save()
