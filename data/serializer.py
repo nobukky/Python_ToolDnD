@@ -14,7 +14,6 @@ class Serializer:
 
     @staticmethod
     def load_data_from_json():
-
         # load data lists from json
 
         # debug data
@@ -29,6 +28,4 @@ class Serializer:
         potion = Item("Potion", "Heals 2 health points", "image", 0)
         items = [potion]
 
-        data = Data(characters, items, equipments)
-        return data
-
+        return Data(characters, items, equipments)

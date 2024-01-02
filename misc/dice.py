@@ -1,7 +1,7 @@
 from random import randint
 
 
-class Random:
+class Dice:
 
     def __init__(self):
         pass

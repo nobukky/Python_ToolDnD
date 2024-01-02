@@ -1,5 +1,5 @@
 from enum import Enum
-from misc.dice import Random
+from misc.dice import Dice
 
 
 class Race(Enum):
@@ -32,14 +32,14 @@ class Character:
 
     def set_statistics(self, do_randomize_stats):
         if do_randomize_stats:
-            self.statistics.append(("Force", Random.roll_dice(1, 20)))
-            self.statistics.append(("Dexterity", Random.roll_dice(1, 20)))
-            self.statistics.append(("Intelligence", Random.roll_dice(1, 20)))
-            self.statistics.append(("Luck", Random.roll_dice(1, 20)))
-            self.statistics.append(("Health Points", Random.roll_dice(1, 20)))
+            self.statistics.append(("Force", Dice.roll_dice(1, 20)))
+            self.statistics.append(("Dexterity", Dice.roll_dice(1, 20)))
+            self.statistics.append(("Intelligence", Dice.roll_dice(1, 20)))
+            self.statistics.append(("Luck", Dice.roll_dice(1, 20)))
+            self.statistics.append(("Health Points", Dice.roll_dice(1, 20)))
         else:
-            self.statistics.append(("Force", Random.roll_dice(3, 6)))
-            self.statistics.append(("Dexterity", Random.roll_dice(3, 6)))
-            self.statistics.append(("Intelligence", Random.roll_dice(3, 6)))
-            self.statistics.append(("Luck", Random.roll_dice(3, 6)))
-            self.statistics.append(("Health Points", Random.roll_dice(3, 6)))
+            self.statistics.append(("Force", Dice.roll_dice(3, 6)))
+            self.statistics.append(("Dexterity", Dice.roll_dice(3, 6)))
+            self.statistics.append(("Intelligence", Dice.roll_dice(3, 6)))
+            self.statistics.append(("Luck", Dice.roll_dice(3, 6)))
+            self.statistics.append(("Health Points", Dice.roll_dice(3, 6)))
