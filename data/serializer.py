@@ -1,8 +1,8 @@
 from data.data import Data
 from item.character import Character, Race, Affinity, CharacterSchema
-from platformdirs import user_cache_dir
 from item.item import Item, ItemSchema
-from item.equipment import Equipment
+from item.equipment import Equipment, EquipmentSchema
+from platformdirs import user_cache_dir
 import os
 import json
 
@@ -11,12 +11,35 @@ def write_file(content: str, path: str):
     with open(path, 'w+') as file:
         file.write(content)
 
+def read_file(path: str):
+    if not os.path.exists(path):
+        return ""
+
+    tweets = []
+    with open(path, 'r') as file:
+        for line in file:
+            tweets.append(json.loads(line))
+    return tweets
+
+def get_path():
+    cache_directory = user_cache_dir("Dnd_asset_creator", "NBK")
+    if not os.path.exists(cache_directory):
+        os.makedirs(cache_directory)
+    return cache_directory
+
+def save_to_json(list, schema, file_name: str):
+    items_json = ""
+    for item in list:
+        item_schema = schema()
+        item_serialized = item_schema.dumps(item)
+        items_json += json.dumps(item_serialized, sort_keys=True, indent=4)
+    write_file(items_json, get_path() + file_name)
+
 class Serializer:
 
     @staticmethod
     def load_data_from_json():
         print("Loading data...")
-
         # debug data
         bob = Character("Bob", "Child of the moon", "image", 0, Race.HUMAN, Affinity.MAGE, True)
         oli = Character("Oli", "Destructor of worlds", "image", 1, Race.ORC, Affinity.WARRIOR, True)
@@ -29,37 +52,21 @@ class Serializer:
         potion = Item("Potion", "Heals 2 health points", "image", 0)
         items = [potion]
 
+
+        cache_directory = get_path()
+
+        characters_json = read_file(cache_directory + "\\characters.json")
+        if characters_json != "":
+            characters = CharacterSchema(many=True).load(characters_json)
+
+        #items = ItemSchema().load(read_file(cache_directory + "\\items.json"))
+        #equipments = EquipmentSchema().load(read_file(cache_directory + "\\equipments.json"))
+
         return Data(characters, items, equipments)
 
     @staticmethod
     def save_data_to_json(data):
         print("Saving data...")
-
-        # getting data cache directory
-        cache_directory = user_cache_dir("Dnd_asset_creator", "NBK")
-        if not os.path.exists(cache_directory):
-            os.makedirs(cache_directory)
-
-        # serialize and store characters data
-        characters_json = ""
-        for character in data.characters:
-            character_schema = CharacterSchema()
-            character_serialized = character_schema.dumps(character)
-            characters_json += json.dumps(character_serialized, sort_keys=True, indent=4)
-        write_file(characters_json, cache_directory + "\\characters.json")
-
-        # serialize and store items data
-        items_json = ""
-        for item in data.items:
-            item_schema = ItemSchema()
-            item_serialized = item_schema.dumps(item)
-            items_json += json.dumps(item_serialized, sort_keys=True, indent=4)
-        write_file(items_json, cache_directory + "\\items.json")
-
-        # serialize and store equipments data
-        equipments_json = ""
-        for equipment in data.equipments:
-            equipment_schema = ItemSchema()
-            equipment_serialized = equipment_schema.dumps(equipment)
-            equipments_json += json.dumps(equipment_serialized, sort_keys=True, indent=4)
-        write_file(equipments_json, cache_directory + "\\equipments.json")
+        save_to_json(data.characters, CharacterSchema, "\\characters.json")
+        save_to_json(data.items, ItemSchema,"\\items.json")
+        save_to_json(data.equipments, EquipmentSchema,"\\equipments.json")
