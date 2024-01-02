@@ -2,7 +2,6 @@ from enum import Enum
 from misc.dice import Dice
 from marshmallow import Schema, fields
 from marshmallow_enum import EnumField
-from dataclasses import dataclass
 
 
 class Race(Enum):
@@ -35,17 +34,6 @@ def get_statistics(do_randomize_stats):
     return statistics
 
 
-class Character:
-    def __init__(self, name: str, description: str, image_path: str, id: int, race: Race, affinity: Affinity, do_randomize_stats: bool):
-        self.name: str = name
-        self.description: str = description
-        self.image_path: str = image_path
-        self.id: int = id
-        self.race: Race = race
-        self.affinity: Affinity = affinity
-        self.statistics: list[Stat] = get_statistics(do_randomize_stats)
-
-
 class Stat:
     def __init__(self, name: str, value: int):
         self.name: str = name
@@ -55,6 +43,18 @@ class Stat:
 class StatSchema(Schema):
     name = fields.Str()
     value = fields.Int()
+
+
+class Character:
+    def __init__(self, name: str, description: str, image_path: str, id: int, race: Race, affinity: Affinity, do_randomize_stats: bool):
+        self.name: str = name
+        self.description: str = description
+        self.image_path: str = image_path
+        self.id: int = id
+
+        self.race: Race = race
+        self.affinity: Affinity = affinity
+        self.statistics: list[Stat] = get_statistics(do_randomize_stats)
 
 
 class CharacterSchema(Schema):

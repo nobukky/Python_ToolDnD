@@ -1,4 +1,6 @@
 from enum import Enum
+from marshmallow import Schema, fields
+from marshmallow_enum import EnumField
 
 
 class Effect(Enum):
@@ -12,44 +14,34 @@ class Range(Enum):
     DISTANT = 1
 
 
+class EquipmentType(Enum):
+    WEAPON = 0
+    SHIELD = 1
+    ARMOR = 2
+
+
 class Equipment:
-    def __init__(self, name: str, description: str, image, id: int):
+    def __init__(self, name: str, description: str, image, id: int, type: EquipmentType = None, effect: Effect = Effect.NONE, range: Range = None, strength: int = None, defense: int = None):
         self.name = name
         self.description = description
         self.image = image
         self.id = id
 
-
-class Weapon(Equipment):
-
-    def __init__(self, name: str, description: str, image, id: int,
-                 effect: Effect, range: Range):
-        super.__init__().name = name
-        super.__init__().description = description
-        super.__init__().image = image
-        super.__init__().id = id
+        self.type = type
         self.effect = effect
         self.range = range
+        self.strength = strength
+        self.defense = defense
 
 
-class Shield(Equipment):
+class EquipmentSchema(Schema):
+    name = fields.Str()
+    description = fields.Str()
+    image = fields.Str()
+    id = fields.Int()
 
-    def __init__(self, name: str, description: str, image, id: int,
-                 defence: int):
-        super.__init__().name = name
-        super.__init__().description = description
-        super.__init__().image = image
-        super.__init__().id = id
-        self.defence = defence
-
-
-class Armor(Equipment):
-
-    def __init__(self, name: str, description: str, image, id: int,
-                 resistance: Effect):
-        super.__init__().name = name
-        super.__init__().description = description
-        super.__init__().image = image
-        super.__init__().id = id
-        self.resistance = resistance
-
+    type = EnumField(EquipmentType)
+    effect = EnumField(Effect)
+    range = EnumField(Range)
+    strength = fields.Int()
+    defense = fields.Int()

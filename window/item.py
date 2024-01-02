@@ -1,18 +1,17 @@
 from window.nbk_editor import Fill, Side, Editor
-from item.character import Character as itemCharacter
-from item.character import Race, Affinity
+from item.item import Item as itemItem
+from item.item import Effect
 from misc.dice import Dice
 
 
-class Character:
+class Item:
     def __init__(self):
         self.name = None
         self.description = None
         self.image = None
         self.id = Dice.roll_dice(1, 999999)
-        self.race = None
-        self.affinity = None
-        self.do_randomize_stats = False
+        self.is_consumable = None
+        self.effect = None
 
         self.data_handler = None
         self.entry_name = None
@@ -22,17 +21,17 @@ class Character:
 
         self.data_handler = data_handler
 
-        window = Editor.create_window("Dnd Character Creator", '800x420', False)
+        window = Editor.create_window("Dnd Item Creator", '800x420', False)
 
         # sidebar
         frame_sidebar = Editor.frame(window, True, Fill.BOTH, Side.LEFT)
-        Editor.label(frame_sidebar, "List of characters")
-        Editor.generate_buttons(frame_sidebar, data_handler.data.characters)
+        Editor.label(frame_sidebar, "List of items")
+        Editor.generate_buttons(frame_sidebar, data_handler.data.items)
 
 
         # title
         frame_main = Editor.frame(window, True, Fill.BOTH, Side.RIGHT)
-        Editor.label(frame_main, "Create new character")
+        Editor.label(frame_main, "Create new item")
 
         # name
         Editor.label(frame_main, "Name")
@@ -40,7 +39,7 @@ class Character:
         self.name = Editor.label(frame_main, "")
 
         # background
-        Editor.label(frame_main, "Background")
+        Editor.label(frame_main, "Description")
         self.entry_description = Editor.entry(frame_main)
         self.description = Editor.label(frame_main, "")
 
@@ -48,16 +47,9 @@ class Character:
         Editor.label(frame_main, "Image")
 
         # race
-        Editor.label(frame_main, "Race")
-        self.race = Editor.dropbox(frame_main, Race)
-
-        # affinity
-        Editor.label(frame_main, "Class")
-        self.race = Editor.dropbox(frame_main, Affinity)
-
-        # statistics
-        Editor.label(frame_main, "Statistics")
-        self.do_randomize_stats = Editor.checkbox(frame_main, "randomize statistics")
+        Editor.label(frame_main, "Consumable")
+        self.is_consumable = Editor.checkbox(frame_main, "Is this item a consumable?")
+        self.effect = Editor.dropbox(frame_main, Effect)
 
 
         # save button & id
@@ -69,8 +61,8 @@ class Character:
     def save_information(self):
 
         # creating new character
-        new_character = itemCharacter(self.entry_name.get(), self.entry_description.get(), self.image, self.id, self.race, self.affinity, self.do_randomize_stats)
+        new_item = itemItem(self.entry_name.get(), self.entry_description.get(), self.image, self.id, self.effect, self.is_consumable)
 
         # save data information
-        self.data_handler.data.characters.append(new_character)
+        self.data_handler.data.items.append(new_item)
         self.data_handler.save()

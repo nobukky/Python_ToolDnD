@@ -60,11 +60,11 @@ class Editor:
         return new_entry
 
     @staticmethod
-    def dropbox(parent_frame, enum, starting_option):
-        current = tk.StringVar(value=starting_option)
+    def dropbox(parent_frame, enum, on_change_command = None):
+        current = tk.StringVar()
         new_dropbox = ttk.Combobox(parent_frame, textvariable=current, style="TCombobox")
         new_dropbox['values'] = [option.name for option in enum]
-        new_dropbox.current()
+        new_dropbox.bind('<<ComboboxSelected>>', on_change_command)
         new_dropbox.pack()
         return new_dropbox
 
