@@ -31,7 +31,7 @@ def save_to_json(list, schema, file_name: str):
     items_json = ""
     for item in list:
         item_schema = schema()
-        item_serialized = item_schema.dumps(item)
+        item_serialized = item_schema.dump(item)
         items_json += json.dumps(item_serialized, sort_keys=True, indent=4)
     write_file(items_json, get_path() + file_name)
 
@@ -41,8 +41,8 @@ class Serializer:
     def load_data_from_json():
         print("Loading data...")
         # debug data
-        bob = Character("Bob", "Child of the moon", "image", 0, Race.HUMAN, Affinity.MAGE, True)
-        oli = Character("Oli", "Destructor of worlds", "image", 1, Race.ORC, Affinity.WARRIOR, True)
+        bob = Character("Bob", "Child of the moon", "image", 0, Race.HUMAN, Affinity.MAGE, [9, 9, 9, 9, 9])
+        oli = Character("Oli", "Destructor of worlds", "image", 1, Race.ORC, Affinity.WARRIOR, [9, 9, 9, 9, 9])
         characters = [bob, oli]
 
         axe = Equipment("Axe", "Heavy black axe", "image", 0)
@@ -53,11 +53,11 @@ class Serializer:
         items = [potion]
 
 
-        cache_directory = get_path()
+        #cache_directory = get_path()
 
-        characters_json = read_file(cache_directory + "\\characters.json")
-        if characters_json != "":
-            characters = CharacterSchema(many=True).load(characters_json)
+        #characters_json = read_file(cache_directory + "\\characters.json")
+        #if characters_json != "":
+        #    characters = CharacterSchema(many=True).load(characters_json)
 
         #items = ItemSchema().load(read_file(cache_directory + "\\items.json"))
         #equipments = EquipmentSchema().load(read_file(cache_directory + "\\equipments.json"))
