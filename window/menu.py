@@ -17,8 +17,10 @@ class Menu:
         # title
         frame_main = Editor.frame(window, True, Fill.NONE, Side.TOP)
         Editor.label(frame_main, title="Dungeons and dragons asset creator", row=0, column=0)
-        Editor.button(frame_main, text="Characters", command=lambda: self.character.open_window(data_handler), row=1, column=0)
-        Editor.button(frame_main, text="Items", command=lambda: self.item.open_window(data_handler), row=2, column=0)
-        Editor.button(frame_main, text="Equipments", command=lambda: self.equipment.open_window(data_handler), row=3, column=0)
+        Editor.button(frame_main, text="Create a new character", command=lambda: self.character.open_window(data_handler), row=1, column=0)
+
+        ### don't work due to changes
+        #Editor.button(frame_main, text="Create a new item", command=lambda: self.item.open_window(data_handler), row=2, column=0)
+        #Editor.button(frame_main, text="Create a new equipment", command=lambda: self.equipment.open_window(data_handler), row=3, column=0)
 
         window.mainloop()

@@ -4,9 +4,10 @@ from marshmallow_enum import EnumField
 
 
 class Race(Enum):
-    HUMAN = 0,
-    ORC = 1,
+    HUMAN = 0
+    ORC = 1
     ELF = 2
+    GOD = 3
 
 
 
@@ -14,6 +15,7 @@ class Affinity(Enum):
     WARRIOR = 0
     MAGE = 1
     THIEF = 2
+    ENGINEER = 3
 
 
 class Character:

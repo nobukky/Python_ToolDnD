@@ -1,4 +1,3 @@
-from data.data import Data
 from data.serializer import Serializer
 
 
@@ -8,4 +7,7 @@ class DataHandler:
         self.data = Serializer.load_data_from_json()
 
     def save(self):
+        """
+        Save the data using the 'Serializer' class
+        """
         Serializer.save_data_to_json(self.data)
