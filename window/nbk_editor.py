@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedTk
+from PIL import ImageTk, Image
 
 
 class Fill:
@@ -20,11 +21,14 @@ class Side:
 class Editor:
 
     @staticmethod
-    def create_window(title: str, size: str, is_resizable: bool):
-        window = ThemedTk(theme="equilux", background=True)
+    def create_window(title: str, size: str, is_main_window: bool=True):
+        if is_main_window:
+            window = ThemedTk(theme="equilux", background=True)
+        else:
+            window = tk.Toplevel()
+
         window.title(title)
         window.geometry(size)
-        window.resizable = is_resizable
         style = ttk.Style()
         style.configure("TLabel", foreground="light gray")
         style.configure("TButton", foreground="light gray")
@@ -35,52 +39,80 @@ class Editor:
         return window
 
     @staticmethod
-    def button(parent_frame, row: int, column: int, text: str, command):
-        new_button = ttk.Button(parent_frame, text=text, command=command)
-        new_button.grid(row=row, column=column)
+    def button(root, text: str, command, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str= "nsew"):
+        new_button = ttk.Button(root, text=text, command=command)
+        new_button.grid(row=row, column=column, rowspan=row_span, columnspan=column_span, padx=pad_x, pady=pad_y, sticky=sticky)
         return new_button
 
     @staticmethod
-    def label(parent_frame, title: str, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str="nsew"):
-        new_label = ttk.Label(parent_frame, text=title, style="TLabel")
+    def label(root, title: str, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str= "nsew"):
+        new_label = ttk.Label(root, text=title, style="TLabel")
         new_label.grid(row=row, column=column, rowspan=row_span, columnspan=column_span, padx=pad_x, pady=pad_y, sticky=sticky)
         return new_label
 
     @staticmethod
-    def frame(parent_frame, expand: bool, fill: Fill, side: Side):
-        new_frame = ttk.Frame(parent_frame)
+    def frame(root, expand: bool, fill: Fill, side: Side):
+        new_frame = ttk.Frame(root)
         new_frame.pack(expand=expand, fill=fill, side=side)
         return new_frame
 
     @staticmethod
-    def entry(parent_frame, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str="nsew"):
+    def entry(root, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str= "nsew"):
         text = tk.StringVar()
         text.set("...")
-        new_entry = ttk.Entry(parent_frame, textvariable=text, style="TEntry")
+        new_entry = ttk.Entry(root, textvariable=text, style="TEntry")
         new_entry.grid(row=row, column=column, rowspan=row_span, columnspan=column_span, padx=pad_x, pady=pad_y, sticky=sticky)
         return new_entry
 
     @staticmethod
-    def dropbox(parent_frame, enum, on_change_command, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str="nsew"):
+    def dropbox(root, enum, on_change_command, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str= "nsew"):
         current = tk.StringVar()
-        new_dropbox = ttk.Combobox(parent_frame, textvariable=current, style="TCombobox")
+        new_dropbox = ttk.Combobox(root, textvariable=current, style="TCombobox")
         new_dropbox['values'] = [option.name for option in enum]
+        new_dropbox.current(0)
         new_dropbox.bind('<<ComboboxSelected>>', on_change_command)
         new_dropbox.grid(row=row, column=column, rowspan=row_span, columnspan=column_span, padx=pad_x, pady=pad_y, sticky=sticky)
-        new_dropbox.current(0)
         return new_dropbox
 
     @staticmethod
-    def checkbox(parent_frame, text: str, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str="nsew"):
-        new_checkbox = ttk.Checkbutton(parent_frame, text=text, onvalue=1, offvalue=0, style="TCheckbutton")
+    def checkbox(root, text: str, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str= "nsew"):
+        new_checkbox = ttk.Checkbutton(root, text=text, onvalue=1, offvalue=0, style="TCheckbutton")
         new_checkbox.grid(row=row, column=column, rowspan=row_span, columnspan=column_span, padx=pad_x, pady=pad_y, sticky=sticky)
         return new_checkbox
 
     @staticmethod
-    def radiobutton(parent_frame, text :str, value, variable, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str="nsew"):
-        new_radiobutton = ttk.Radiobutton(parent_frame, text=text, variable=variable, value=value, style="TRadiobutton")
+    def radiobutton(root, text :str, value, variable, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str= "nsew"):
+        new_radiobutton = ttk.Radiobutton(root, text=text, variable=variable, value=value, style="TRadiobutton")
         new_radiobutton.grid(row=row, column=column, rowspan=row_span, columnspan=column_span, padx=pad_x, pady=pad_y, sticky=sticky)
         return new_radiobutton
+
+    @staticmethod
+    def image(root, image, row: int, column: int, row_span: int=1, column_span: int=1, pad_x: int=0, pad_y: int=0, sticky: str= "nsew"):
+        new_image = ttk.Label(root, image=image)
+        new_image.grid(row=row, column=column, rowspan=row_span, columnspan=column_span, padx=pad_x, pady=pad_y, sticky=sticky)
+        return new_image
+
+    @staticmethod
+    def update_image(label_image, image_path: str, limit_size: int = 150):
+        # get the image from the file path
+        image = Image.open(image_path)
+
+        # optimize image size
+        width = image.size[0]
+        height = image.size[1]
+        while width >= limit_size and height >= limit_size:
+            width *= 0.75
+            height *= 0.75
+        width = int(round(width))
+        height = int(round(height))
+
+        # resize image to the optimized size
+        image_resized = image.resize((width, height), Image.Resampling.LANCZOS)
+        image_tk = ImageTk.PhotoImage(image_resized)
+
+        # update the given label image
+        label_image.configure(image=image_tk)
+        label_image.image = image_tk
 
     @staticmethod
     def string_var():

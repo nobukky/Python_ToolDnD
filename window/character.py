@@ -1,14 +1,19 @@
 from window.nbk_editor import Fill, Side, Editor
 from item.character import Character as itemCharacter
 from item.character import Race, Affinity
+from tkinter import filedialog
 from misc.dice import Dice
+import json
+from PIL import Image
+import numpy as np
+import pathlib
 
 
 class Character:
     def __init__(self):
         self.name = None
         self.description = None
-        self.image = None
+        self.image_path = None
         self.id = Dice.roll_dice(1, 999999)
         self.race = None
         self.affinity = None
@@ -21,12 +26,13 @@ class Character:
         self.variable_method = None
         self.entry_name = None
         self.entry_description = None
+        self.label_image = None
 
     def open_window(self, data_handler):
 
         self.data_handler = data_handler
 
-        window = Editor.create_window("Dnd Character Creator", '425x450', False)
+        window = Editor.create_window("Dnd Character Creator", '800x450', False)
 
         # sidebar
         frame_sidebar = Editor.frame(window, True, Fill.BOTH, Side.LEFT)
@@ -34,56 +40,50 @@ class Character:
         Editor.generate_buttons(frame_sidebar, data_handler.data.characters)
 
 
-        # title
-        frame_main = Editor.frame(window, True, Fill.BOTH, Side.TOP)
-        Editor.label(frame_main, title="Create new character", row=0, column=0,)
-
-
         # main infos
-        frame_main_infos = Editor.frame(window, True, Fill.BOTH, Side.TOP)
+        frame_main_infos = Editor.frame(window, True, Fill.BOTH, Side.LEFT)
+        Editor.label(frame_main_infos, title="INFORMATION", row=0, column=0, pad_y=10)
 
         # name
-        Editor.label(frame_main_infos, title="Name", row=0, column=0)
-        self.entry_name = Editor.entry(frame_main_infos, row=0, column=1)
-        self.name = Editor.label(frame_main_infos, title="", row=1, column=1)
+        Editor.label(frame_main_infos, title="Name", row=1, column=0, pad_y=10)
+        self.entry_name = Editor.entry(frame_main_infos, row=1, column=1)
 
         # background
-        Editor.label(frame_main_infos, title="Background", row=2, column=0)
-        self.entry_description = Editor.entry(frame_main_infos, row=2, column=1)
-        self.description = Editor.label(frame_main_infos, title="", row=3, column=1)
+        Editor.label(frame_main_infos, title="Background", row=3, column=0, pad_y=10)
+        self.entry_description = Editor.entry(frame_main_infos, row=3, column=1)
 
         # image
-        Editor.label(frame_main_infos, title="Image", row=4, column=0)
+        Editor.label(frame_main_infos, title="Image", row=5, column=0, pad_y=10)
+        label_image = Editor.image(frame_main_infos, image=None, row=6, column=1)
+        Editor.button(frame_main_infos, text="Get image", command=lambda: self.get_image(label_image), row=5, column=1)
 
         # race
-        Editor.label(frame_main_infos, title="Race", row=5, column=0)
-        self.race = Editor.dropbox(frame_main_infos, enum=Race, on_change_command=None, row=5, column=1)
+        Editor.label(frame_main_infos, title="Race", row=7, column=0, pad_y=10)
+        self.race = Editor.dropbox(frame_main_infos, enum=Race, on_change_command=None, row=7, column=1)
 
         # affinity
-        Editor.label(frame_main_infos, row=6, column=0, title="Class")
-        self.affinity = Editor.dropbox(frame_main_infos, enum=Affinity, on_change_command=None, row=6, column=1)
+        Editor.label(frame_main_infos,title="Class", row=8, column=0, pad_y=10)
+        self.affinity = Editor.dropbox(frame_main_infos, enum=Affinity, on_change_command=None, row=8, column=1)
 
 
         # statistics
-        frame_statistics = Editor.frame(window, True, Fill.BOTH, Side.TOP)
-        Editor.label(frame_statistics, title="STATISTICS", row=0, column=0)
+        frame_statistics = Editor.frame(window, True, Fill.BOTH, Side.RIGHT)
+        Editor.label(frame_statistics, title="STATISTICS", row=0, column=0, pad_y=10)
 
-        frame_statistics_method = Editor.frame(window, True, Fill.BOTH, Side.TOP)
-        Editor.label(frame_statistics_method, title="Which randomize method do you use?", row=0, column=0)
+        Editor.label(frame_statistics, title="Which randomize method do you use?", row=1, column=0)
         self.variable_method = Editor.string_var()
-        Editor.radiobutton(frame_statistics_method, text="1d20", value=0, variable=self.variable_method, row=0, column=1)
-        Editor.radiobutton(frame_statistics_method, text="3d6", value=1, variable=self.variable_method, row=0, column=2)
+        Editor.radiobutton(frame_statistics, text="1d20", value=0, variable=self.variable_method, row=1, column=1)
+        Editor.radiobutton(frame_statistics, text="3d6", value=1, variable=self.variable_method, row=1, column=2)
 
-        frame_statistics_generation = Editor.frame(window, True, Fill.BOTH, Side.TOP)
-        Editor.button(frame_statistics_generation, text="(re)Generate", command=lambda: self.generate_statistics(frame_statistics_generation, starting_row=2), row=0, column=0)
-        Editor.label(frame_statistics_generation, title="Your statistics:", row=1, column=0)
-        self.generate_statistics(frame_statistics_generation, starting_row=2, do_generate_empty=True)
+        Editor.button(frame_statistics, text="(re)Generate", command=lambda: self.generate_statistics(frame_statistics, starting_row=4), row=2, column=0)
+
+        Editor.label(frame_statistics, title="Your statistics:", row=3, column=0)
+        self.generate_statistics(frame_statistics, starting_row=4, do_generate_empty=True)
 
 
         # save button & id
-        frame_footer = Editor.frame(window, True, Fill.BOTH, Side.BOTTOM)
-        Editor.button(frame_footer, text="SAVE", command=lambda: self.save_information(), row=0, column=0)
-        Editor.label(frame_footer, title="ID: " + self.id.__str__(), row=1, column=0)
+        Editor.button(frame_statistics, text="SAVE", command=lambda: self.save_information(), row=9, column=0, pad_y=10)
+        Editor.label(frame_statistics, title="ID: " + self.id.__str__(), row=10, column=0)
 
         window.mainloop()
 
@@ -115,27 +115,46 @@ class Character:
                 statistic_name = ""
                 match i:
                     case 0:
-                        statistic_name = "Strength"
+                        statistic_name = "   Strength"
                     case 1:
-                        statistic_name = "Dexterity"
+                        statistic_name = "   Dexterity"
                     case 2:
-                        statistic_name = "Intelligence"
+                        statistic_name = "   Intelligence"
                     case 3:
-                        statistic_name = "Luck"
+                        statistic_name = "   Luck"
                     case 4:
-                        statistic_name = "Health points"
+                        statistic_name = "   Health points"
 
                 # add new labels
                 self.labels_statistics.append(Editor.label(parent_frame, title=f"{statistic_name}: {self.statistics[i]}", row=row_index, column=0))
                 row_index += 1
+
+    def get_image(self, label_image):
+        # open the Windows explorer
+        self.image_path = filedialog.askopenfilename(title= "Open an image", filetypes=[("Image Files", "*.png;*.jpg;*.jpeg;*.bmp;")])
+
+        # null exception
+        if not self.image_path:
+            return
+
+        # destroy former label, if they exist
+        if self.label_image is not None:
+            self.label_image.destroy()
+
+        # display the image on the tool
+        self.label_image = Editor.update_image(label_image, self.image_path, limit_size=200)
 
     def save_information(self):
         # get enum value from their names
         self.race = Editor.get_enum_value_from_names(Race, self.race.get())
         self.affinity = Editor.get_enum_value_from_names(Affinity, self.affinity.get())
 
+        # convert image using numpy
+        image = Image.open(self.image_path)
+        image_json = json.dumps(np.array(image).tolist())
+
         # creating new character
-        new_character = itemCharacter(self.entry_name.get(), self.entry_description.get(), self.image, self.id, self.race, self.affinity, self.statistics)
+        new_character = itemCharacter(self.entry_name.get(), self.entry_description.get(), image_json, self.id, self.race, self.affinity, self.statistics)
 
         # save data information
         self.data_handler.data.characters.append(new_character)

@@ -12,10 +12,10 @@ class Menu:
 
     def open_window(self, data_handler):
 
-        window = Editor.create_window("Dnd Creator", '240x320', False)
+        window = Editor.create_window("Dnd Creator", '250x150', True)
 
         # title
-        frame_main = Editor.frame(window, True, Fill.BOTH, Side.TOP)
+        frame_main = Editor.frame(window, True, Fill.NONE, Side.TOP)
         Editor.label(frame_main, title="Dungeons and dragons asset creator", row=0, column=0)
         Editor.button(frame_main, text="Characters", command=lambda: self.character.open_window(data_handler), row=1, column=0)
         Editor.button(frame_main, text="Items", command=lambda: self.item.open_window(data_handler), row=2, column=0)
