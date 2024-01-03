@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedTk
 from PIL import ImageTk, Image
+import numpy as np
+import pathlib
+import json
 
 
 class Fill:
@@ -93,10 +96,34 @@ class Editor:
         return new_image
 
     @staticmethod
-    def update_image(label_image, image_path: str, limit_size: int = 150):
-        # get the image from the file path
-        image = Image.open(image_path)
+    def update_image_from_path(label_image, image_path: str = ""):
+        # null exception
+        if image_path == "":
+            return
 
+        # get image from path
+        image = Image.open(image_path)
+        Editor._update_image(label_image, image)
+
+    @staticmethod
+    def update_image_from_json(label_image, image_json: str = ""):
+        # null exception
+        if image_json == "":
+            return
+
+        # empty exception
+        if image_json == "empty":
+            # hide former image, if it is empty
+            label_image.configure(image='')
+            label_image.image = ''
+            return
+
+        # get the image from json
+        image = Image.fromarray(np.array(json.loads(image_json), dtype='uint8'))
+        Editor._update_image(label_image, image)
+
+    @staticmethod
+    def _update_image(label_image, image, limit_size: int = 200):
         # optimize image size
         width = image.size[0]
         height = image.size[1]

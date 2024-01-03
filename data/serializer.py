@@ -41,15 +41,15 @@ class Serializer:
     def load_data_from_json():
         print("Loading data...")
         # debug data
-        bob = Character("Bob", "Child of the moon", "image", 0, Race.HUMAN, Affinity.MAGE, [9, 9, 9, 9, 9])
-        oli = Character("Oli", "Destructor of worlds", "image", 1, Race.ORC, Affinity.WARRIOR, [9, 9, 9, 9, 9])
+        bob = Character("Bob", "Child of the moon", "empty", 0, Race.HUMAN, Affinity.MAGE, [9, 9, 9, 9, 9])
+        oli = Character("Oli", "Destructor of worlds", "empty", 1, Race.ORC, Affinity.WARRIOR, [9, 9, 9, 9, 9])
         characters = [bob, oli]
 
-        axe = Equipment("Axe", "Heavy black axe", "image", 0)
-        pickaxe = Equipment("Pickaxe", "heavy pickaxe", "image", 1)
+        axe = Equipment("Axe", "Heavy black axe", "empty", 0)
+        pickaxe = Equipment("Pickaxe", "heavy pickaxe", "empty", 1)
         equipments = [axe, pickaxe]
 
-        potion = Item("Potion", "Heals 2 health points", "image", 0)
+        potion = Item("Potion", "Heals 2 health points", "empty", 0)
         items = [potion]
 
 

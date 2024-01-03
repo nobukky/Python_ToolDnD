@@ -1,5 +1,4 @@
 from enum import Enum
-from misc.dice import Dice
 from marshmallow import Schema, fields
 from marshmallow_enum import EnumField
 
@@ -18,10 +17,10 @@ class Affinity(Enum):
 
 
 class Character:
-    def __init__(self, name: str, description: str, image_path: str, id: int, race: Race, affinity: Affinity, statistics: list[int]):
+    def __init__(self, name: str, description: str, image: str, id: int, race: Race, affinity: Affinity, statistics: list[int]):
         self.name: str = name
         self.description: str = description
-        self.image_path: str = image_path
+        self.image: str = image
         self.id: int = id
 
         self.race: Race = race
@@ -32,7 +31,7 @@ class Character:
 class CharacterSchema(Schema):
     name = fields.Str()
     description = fields.Str()
-    image_path = fields.Str()
+    image = fields.Str()
     id = fields.Int()
 
     race = EnumField(Race)
