@@ -7,17 +7,21 @@ class Effect(Enum):
     NONE = 0
     FIRE = 1
     POISON = 2
+    ELECTRICITY = 3
 
 
 class Range(Enum):
     CLOSE = 0
     DISTANT = 1
+    HYBRID = 2
+    THROWABLE = 3
 
 
 class EquipmentType(Enum):
     WEAPON = 0
     SHIELD = 1
     ARMOR = 2
+    TOOL = 3
 
 
 class Equipment:

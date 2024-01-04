@@ -14,7 +14,6 @@ class Character:
         self.index = None
         self.name = None
         self.description = None
-        self.image_path = None
         self.id = Dice.roll_dice(1, 999999)
         self.race = None
         self.affinity = None
@@ -43,7 +42,7 @@ class Character:
 
         ### SIDEBAR
         frame_sidebar = Editor.frame(window, True, Fill.BOTH, Side.LEFT)
-        Editor.label(frame_sidebar, title="List of characters", row=0, column=0,)
+        Editor.label(frame_sidebar, title="List of characters", row=0, column=0, pad_x=10, pad_y=10)
         for i in range(len(data_handler.data.characters)):
             Editor.button(frame_sidebar, text=data_handler.data.characters[i].name, command=lambda j=i: self._update_display(j), row=i + 1, column=0)
 
@@ -57,21 +56,21 @@ class Character:
         self.entry_name = Editor.entry(frame_main_infos, row=1, column=1)
 
         # background
-        Editor.label(frame_main_infos, title="Background", row=3, column=0, pad_y=10)
-        self.entry_description = Editor.entry(frame_main_infos, row=3, column=1)
+        Editor.label(frame_main_infos, title="Background", row=2, column=0, pad_y=10)
+        self.entry_description = Editor.entry(frame_main_infos, row=2, column=1)
 
         # image
-        Editor.label(frame_main_infos, title="Image", row=5, column=0, pad_y=10)
-        self.label_image = Editor.image(frame_main_infos, image=None, row=6, column=1)
-        Editor.button(frame_main_infos, text="Get image", command=lambda: self._get_image(), row=5, column=1)
+        Editor.label(frame_main_infos, title="Image", row=3, column=0, pad_y=10)
+        self.label_image = Editor.image(frame_main_infos, image=None, row=4, column=1)
+        Editor.button(frame_main_infos, text="Get image", command=lambda: self._get_image(), row=3, column=1)
 
         # race
-        Editor.label(frame_main_infos, title="Race", row=7, column=0, pad_y=10)
-        self.race = Editor.dropbox(frame_main_infos, enum=Race, on_change_command=None, row=7, column=1)
+        Editor.label(frame_main_infos, title="Race", row=5, column=0, pad_y=10)
+        self.race = Editor.dropbox(frame_main_infos, enum=Race, on_change_command=None, row=5, column=1)
 
         # affinity
-        Editor.label(frame_main_infos,title="Class", row=8, column=0, pad_y=10)
-        self.affinity = Editor.dropbox(frame_main_infos, enum=Affinity, on_change_command=None, row=8, column=1)
+        Editor.label(frame_main_infos,title="Class", row=6, column=0, pad_y=10)
+        self.affinity = Editor.dropbox(frame_main_infos, enum=Affinity, on_change_command=None, row=6, column=1)
 
 
         ### STATISTICS

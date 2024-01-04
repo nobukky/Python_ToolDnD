@@ -1,7 +1,7 @@
 from data.data import Data
 from item.character import Character, Race, Affinity, CharacterSchema
 from item.item import Item, ItemSchema
-from item.equipment import Equipment, EquipmentSchema
+from item.equipment import Equipment, EquipmentSchema, EquipmentType, Effect, Range
 from platformdirs import user_cache_dir
 from misc.image import Image
 import os
@@ -22,9 +22,9 @@ class Serializer:
         characters = [luffy, robert_oppenheimer]
 
         # equipments
-        axe = Equipment("Axe", "Heavy black axe", "empty", 0)
-        pickaxe = Equipment("Pickaxe", "heavy pickaxe", "empty", 1)
-        equipments = [axe, pickaxe]
+        axe = Equipment("Axe", "Heavy black axe", "empty", 592304, EquipmentType.WEAPON, Effect.NONE, Range.THROWABLE, 9, 3)
+        hylian_shield = Equipment("Hylian Shield", "\"Link, yamete!\", Zelda", "empty", 345298, EquipmentType.SHIELD, Effect.ELECTRICITY, Range.CLOSE, 3, 8)
+        equipments = [axe, hylian_shield]
 
         # items
         potion = Item("Potion", "Heals 2 health points", "empty", 0)
