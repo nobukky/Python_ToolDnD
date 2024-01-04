@@ -26,5 +26,6 @@ class ItemSchema(Schema):
     description = fields.Str()
     image = fields.Str()
     id = fields.Int()
+
     strength = fields.Int()
     effect = EnumField(Effect)

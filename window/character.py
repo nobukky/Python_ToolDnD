@@ -12,8 +12,6 @@ class Character:
     def __init__(self):
         # character data
         self.index = None
-        self.name = None
-        self.description = None
         self.id = Dice.roll_dice(1, 999999)
         self.race = None
         self.affinity = None
@@ -37,7 +35,7 @@ class Character:
         self.data_handler = data_handler
         self.index = len(data_handler.data.characters)
 
-        window = Editor.create_window("Dnd Character Creator", '800x450', False)
+        window = Editor.create_window("Dnd Character Creator", '800x420', False)
 
 
         ### SIDEBAR

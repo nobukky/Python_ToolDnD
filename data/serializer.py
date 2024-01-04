@@ -27,8 +27,10 @@ class Serializer:
         equipments = [axe, hylian_shield]
 
         # items
-        potion = Item("Potion", "Heals 2 health points", "empty", 0)
-        items = [potion]
+        healing_potion = Item("Heal Potion", "Heals 2 health points", "empty", 923805, Effect.NONE, 2)
+        fire_vial = Item("Fire vial", "Deals 4 damages immediately", "empty", 199823, Effect.FIRE, 4)
+        poison_vial = Item("Poison vial", "Deals 5 damages over time", "empty", 892375, Effect.POISON, 5)
+        items = [healing_potion, fire_vial, poison_vial]
 
         ### uncompleted attempts to deserialize the json data
         #cache_directory = get_path()

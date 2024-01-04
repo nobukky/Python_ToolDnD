@@ -36,7 +36,7 @@ class Equipment:
         self.data_handler = data_handler
         self.index = len(data_handler.data.equipments)
 
-        self.window = Editor.create_window("Dnd Character Creator", '800x420', False)
+        self.window = Editor.create_window("Dnd Equipment Creator", '800x420', False)
 
 
         ### SIDEBAR
@@ -134,7 +134,7 @@ class Equipment:
 
     def _update_display(self, index):
         """
-        Updates the display based on the data store in 'data_handler.data.characters[index]' such as name, description, image, race, affinity, statistics and id
+        Updates the display based on the data store in 'data_handler.data.equipments[index]' such as name, description, image, race, affinity, statistics and id
         """
         self.index = index
 
