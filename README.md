@@ -24,7 +24,7 @@
 - Holds the lists of characters, items and equipments (see serializable objects)
 
 ## Serializable objects
-S
+
 - Every single objects/assets (see character, item, equipment) have a name, a description, an image and an id.
 
 ### Character
